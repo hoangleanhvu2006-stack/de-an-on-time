@@ -3,10 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>On Time ứng dụng nhận ca lẻ</title>
+<title>Bấm thử ứng dụng On Time: nhận ca lẻ gần trường</title>
 <meta name="description" content="Bản mô phỏng ứng dụng On Time: sinh viên nhận ca làm lẻ 3 đến 5 tiếng ở quán quanh trường, quán nạp tiền trước, tiền công về trong 24 giờ. Đề án môn học, dữ liệu mẫu.">
 <meta property="og:title" content="On Time: nhận ca lẻ gần trường">
 <meta property="og:description" content="Bản mô phỏng ứng dụng của đề án On Time. Dữ liệu mẫu, không có giao dịch thật.">
+<link rel="canonical" href="https://hoangleanhvu2006-stack.github.io/de-an-on-time/ung-dung.html">
+<meta property="og:url" content="https://hoangleanhvu2006-stack.github.io/de-an-on-time/ung-dung.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="On Time">
+<meta property="og:image" content="https://hoangleanhvu2006-stack.github.io/de-an-on-time/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310203A'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23FFE14D' stroke-width='2.5'/%3E%3Cpath d='M16 10v6l4 3' stroke='%23FFE14D' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,7 +101,7 @@ footer p{max-width:70ch;margin:0 0 8px}
 .chia h3{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums}
 .thanh2{display:flex;height:38px;border-radius:10px;overflow:hidden;font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums}
 .thanh2 span{display:flex;align-items:center;padding:0 10px;white-space:nowrap}
-.thanh2 .sv{background:var(--dung-gio);color:#fff;flex:1}
+.thanh2 .sv{background:var(--xanh-chu);color:#fff;flex:1}
 .thanh2 .ph{background:var(--da-quang);color:var(--muc)}
 details{background:var(--trang);border:1px solid var(--ke);border-radius:14px;padding:13px 18px;margin:8px 0;max-width:760px}
 summary{font-weight:700;cursor:pointer}
@@ -247,7 +256,7 @@ button.the:hover{border-color:var(--muc)}
     <div class="chia">
       <div><h3><span>Người mới, phí 20%</span><span id="k-q1"></span></h3><div class="thanh2"><span class="sv" id="k-sv1"></span><span class="ph" id="k-p1"></span></div></div>
       <div><h3><span>Mời lại người quen, phí 15%</span><span id="k-q2"></span></h3><div class="thanh2"><span class="sv" id="k-sv2"></span><span class="ph" id="k-p2"></span></div></div>
-      <p class="nho" style="margin:0"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--dung-gio);vertical-align:-1px"></span> Sinh viên nhận &nbsp; <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--da-quang);vertical-align:-1px"></span> Phí On Time &nbsp; Số bên phải: quán trả.</p>
+      <p class="nho" style="margin:0"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--xanh-chu);vertical-align:-1px"></span> Sinh viên nhận &nbsp; <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--da-quang);vertical-align:-1px"></span> Phí On Time &nbsp; Số bên phải: quán trả.</p>
     </div>
   </div>
 </section>
@@ -283,11 +292,13 @@ var CA = [
  {id:5, quan:"Bánh mì Chuông Reo", viec:"Phát tờ rơi", ngay:"Chủ nhật", gio:"9:00 đến 12:00", h:3, luong:30000, xa:"1,1 km"}
 ];
 var THE = [["hop","Đồ dùng ở kệ sau quầy"],["nguoi","Hỏi chị quản lý ca"],["huy","Không vào khu bếp nóng"],["cua","Lối thoát hiểm ở cửa sau"],["dong-ho","Nghỉ 10 phút giữa ca"]];
-var S = {vai:"sv", tab:"ca", loc:"", xem:null, video:{}, phat:false, ca:null, moc:0, vi:0, ls:[], gio:6, soCa:3, uy:98, sao:0, bao:false,
+var S = {dem:0, vai:"sv", tab:"ca", loc:"", xem:null, video:{}, phat:false, ca:null, moc:0, vi:0, ls:[], gio:6, soCa:3, uy:98, sao:0, bao:false,
          q:{viec:VIEC[0][0], h:4, luong:32000, quen:false, loi:"", ds:[]}};
 var than = document.getElementById("than"), tabs = document.getElementById("tabs"), hen = null;
 var giam = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 function tong(c){ return c.h * c.luong; }
+function lien(id){ return S.q.ds.filter(function(c){ return c.id === id; })[0]; }
+function dsCa(){ return S.q.ds.filter(function(c){ return c.tt === 0 && !c.huy; }).map(function(c){ return {id:c.id, quan:"Quán của bạn", viec:c.viec, ngay:"Hôm nay", gio:"14:00 đến "+(14+c.h)+":00", h:c.h, luong:c.luong, xa:"500 m", moi:true}; }).concat(CA); }
 function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
 function qr(){
   var N = 21, o = [], x = 7, i, j;
@@ -303,7 +314,8 @@ function qr(){
 function chiDan(){
   if (S.vai === "quan"){
     if (S.tab === "dang") return "Chọn việc, giờ, lương rồi bấm Đăng ca.";
-    return S.q.ds.length ? "Bấm nút trong thẻ ca để đi tiếp." : "Chưa có ca. Mở mục Đăng ca.";
+    if (!S.q.ds.length) return "Chưa có ca. Mở mục Đăng ca.";
+    return S.q.ds.some(function(c){ return c.tt === 0 && !c.huy; }) ? "Ca đã hiện bên vai Sinh viên. Đổi vai để nhận thử." : "Bấm nút trong thẻ ca để đi tiếp.";
   }
   if (S.ca){
     if (S.tab !== "toi") return "Bạn đang có một ca. Mở mục Ca của tôi.";
@@ -330,9 +342,9 @@ function veCa(){
       (S.ca ? '<div class="loi">Làm xong ca đang có rồi nhận ca mới.</div>' : "")+(qua ? '<div class="loi">Nhận ca này sẽ vượt 20 giờ một tuần.</div>' : "")+
       '<button class="nb vang" type="button" data-act="nhan" '+((!da || S.ca || qua) ? "disabled" : "")+'>Nhận ca</button>';
   }
-  var ds = CA.filter(function(c){ return (!S.loc || c.viec === S.loc) && !(S.ca && S.ca.id === c.id); });
+  var ds = dsCa().filter(function(c){ return (!S.loc || c.viec === S.loc) && !(S.ca && S.ca.id === c.id); });
   return '<div class="loc" role="group" aria-label="Lọc theo loại việc"><button type="button" data-loc="" aria-pressed="'+(!S.loc)+'">Hết</button>'+VIEC.map(function(v){ return '<button type="button" data-loc="'+esc(v[0])+'" aria-pressed="'+(S.loc===v[0])+'" aria-label="'+esc(v[0])+'" title="'+esc(v[0])+'">'+ic(v[1])+'</button>'; }).join("")+'</div>'+
-    (ds.length ? ds.map(function(c){ return '<button type="button" class="the" data-act="xem" data-id="'+c.id+'"><span class="ic vang">'+ic(ICV[c.viec])+'</span><span class="gi"><b>'+esc(c.viec)+'</b><small>'+esc(c.quan)+'</small>'+meta(c)+'</span><span class="tien">'+d(tong(c))+'</span></button>'; }).join("")
+    (ds.length ? ds.map(function(c){ return '<button type="button" class="the" data-act="xem" data-id="'+c.id+'"><span class="ic vang">'+ic(ICV[c.viec])+'</span><span class="gi"><b>'+esc(c.viec)+'</b><small>'+esc(c.quan)+(c.moi ? ' <b style="display:inline;font-size:12.5px;color:var(--xanh-chu)">vừa đăng</b>' : '')+'</small>'+meta(c)+'</span><span class="tien">'+d(tong(c))+'</span></button>'; }).join("")
                : '<div class="trong"><span class="ic">'+ic("ghim")+'</span>Chưa có ca loại này quanh trường.</div>');
 }
 function canh(icon, lop, tieuDe, phu){ return '<div class="canh"><div class="to '+lop+'">'+icon+'</div><b>'+tieuDe+'</b><small>'+phu+'</small></div>'; }
@@ -374,7 +386,7 @@ function veDs(){
   if (!ds.length) return '<div class="trong"><span class="ic">'+ic("quan")+'</span>Quán chưa đăng ca nào.<button class="nb" type="button" data-tab="dang">Đăng ca đầu tiên</button></div>';
   return ds.map(function(c,i){ return '<div class="the"><div class="dau-the"><span class="ic vang">'+ic(ICV[c.viec])+'</span><span class="gi"><b>'+esc(c.viec)+', '+c.h+' giờ</b><small>Phí '+c.ty+'%</small></span><span class="tien">'+d(c.nap)+'</span></div>'+
     '<span class="chip '+(c.huy ? "" : c.tt===3 ? "xanh" : "")+'">'+(c.huy ? ic("huy")+"Đã hủy sát giờ, trả 50% tiền công" : (c.tt===3 ? ic("kiem") : ic("dong-ho"))+TT[c.tt])+'</span>'+
-    (c.huy || c.tt>2 ? "" : '<button class="nb" type="button" data-act="qtien" data-i="'+i+'">'+NUT[c.tt]+'</button>')+
+    (c.huy || c.tt>2 ? "" : (S.ca && S.ca.id===c.id) ? '<small style="margin-top:8px">Sinh viên mẫu đang giữ ca này. Đổi vai để đi tiếp.</small>' : '<button class="nb" type="button" data-act="qtien" data-i="'+i+'">'+NUT[c.tt]+'</button>')+
     (!c.huy && c.tt===1 ? '<button class="nb nhe" type="button" data-act="qhuy" data-i="'+i+'">Hủy ca sát giờ</button>' : "")+'</div>'; }).join("");
 }
 function ve(){
@@ -391,18 +403,19 @@ document.querySelector(".man").addEventListener("click", function(e){
   var l = e.target.closest("[data-loc]"); if (l){ S.loc = l.dataset.loc; ve(); return; }
   var s = e.target.closest("[data-sao]"); if (s){ S.sao = +s.dataset.sao; ve(); return; }
   var b = e.target.closest("[data-act]"); if (!b) return; var a = b.dataset.act;
-  if (a==="xem"){ S.xem = CA.filter(function(c){ return c.id === +b.dataset.id; })[0]; S.phat = false; than.scrollTop = 0; }
+  if (a==="xem"){ S.xem = dsCa().filter(function(c){ return c.id === +b.dataset.id; })[0]; S.phat = false; than.scrollTop = 0; }
   else if (a==="lui"){ S.xem = null; }
   else if (a==="video"){ if (S.phat) return; if (giam){ xongVideo(); return; } S.phat = true; hen = setTimeout(xongVideo, 1550); }
-  else if (a==="nhan"){ S.ca = S.xem; S.moc = 0; S.sao = 0; S.bao = false; S.xem = null; S.tab = "toi"; }
-  else if (a==="tien"){ S.moc++; S.bao = false; if (S.moc===4){ var n = tong(S.ca); S.vi += n; S.ls.unshift({v:S.ca.viec, q:S.ca.quan, n:n}); S.gio += S.ca.h; S.soCa++; } than.scrollTop = 0; }
+  else if (a==="nhan"){ var l1 = lien(S.xem.id); if (l1) l1.tt = 1; S.ca = S.xem; S.moc = 0; S.sao = 0; S.bao = false; S.xem = null; S.tab = "toi"; }
+  else if (a==="tien"){ S.moc++; S.bao = false; if (S.moc===4){ var n = tong(S.ca); S.vi += n; S.ls.unshift({v:S.ca.viec, q:S.ca.quan, n:n}); S.gio += S.ca.h; S.soCa++; var l2 = lien(S.ca.id); if (l2) l2.tt = 3; } than.scrollTop = 0; }
   else if (a==="suco"){ S.bao = true; }
-  else if (a==="huy"){ S.ca = null; S.tab = "ca"; }
+  else if (a==="huy"){ var l3 = lien(S.ca.id); if (l3) l3.tt = 0; S.ca = null; S.tab = "ca"; }
   else if (a==="xong"){ S.ca = null; S.moc = 0; S.tab = "vi"; }
   else if (a==="dang"){ var q = S.q; if (!(q.luong >= MIN)){ q.loi = "Lương giờ thấp nhất là "+d(MIN)+"."; }
-    else { q.loi = ""; var tc = q.h*q.luong, ty = q.quen?15:20; q.ds.unshift({viec:q.viec, h:q.h, ty:ty, nap:tc+Math.round(tc*ty/100), tt:0}); S.tab = "ds"; } }
+    else { q.loi = ""; var tc = q.h*q.luong, ty = q.quen?15:20; q.ds.unshift({id:100+(++S.dem), luong:q.luong, viec:q.viec, h:q.h, ty:ty, nap:tc+Math.round(tc*ty/100), tt:0}); S.tab = "ds"; } }
   else if (a==="qtien"){ S.q.ds[+b.dataset.i].tt++; }
-  else if (a==="qhuy"){ S.q.ds[+b.dataset.i].huy = true; }
+  else if (a==="qhuy"){ var qc = S.q.ds[+b.dataset.i]; qc.huy = true;
+    if (S.ca && S.ca.id === qc.id){ var nua = Math.round(qc.h*qc.luong/2); S.vi += nua; S.ls.unshift({v:qc.viec, q:"Quán hủy sát giờ, bạn nhận 50%", n:nua}); S.ca = null; S.moc = 0; } }
   ve();
 });
 document.querySelector(".man").addEventListener("change", function(e){ var q = S.q, id = e.target.id;

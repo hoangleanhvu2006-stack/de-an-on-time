@@ -3,10 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>On Time</title>
+<title>On Time: ứng dụng nhận ca làm lẻ cho sinh viên</title>
 <meta name="description" content="On Time là doanh nghiệp giả định trong đề án môn Văn hóa doanh nghiệp Nhật Bản: ứng dụng nhận ca làm lẻ cho sinh viên Hà Nội, học từ mô hình việc làm ca lẻ của Nhật.">
 <meta property="og:title" content="On Time: trọn giờ lên lớp, khớp nhịp vào ca">
 <meta property="og:description" content="Doanh nghiệp giả định của Nhóm 7: ứng dụng nhận ca làm lẻ cho sinh viên, học từ mô hình việc làm ca lẻ của Nhật.">
+<link rel="canonical" href="https://hoangleanhvu2006-stack.github.io/de-an-on-time/">
+<meta property="og:url" content="https://hoangleanhvu2006-stack.github.io/de-an-on-time/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="On Time">
+<meta property="og:image" content="https://hoangleanhvu2006-stack.github.io/de-an-on-time/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310203A'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23FFE14D' stroke-width='2.5'/%3E%3Cpath d='M16 10v6l4 3' stroke='%23FFE14D' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,7 +85,7 @@ h1 span{display:block}
 .tkb-luoi .thu{font-weight:700;display:grid;place-items:center;color:var(--chi)}
 .tkb-luoi .tiet{background:var(--muc);border-radius:9px;min-height:42px}
 .tkb-luoi button{border:1.5px dashed var(--muc);background:var(--da-quang);color:var(--muc);border-radius:9px;min-height:42px;font:700 13px var(--chu);cursor:pointer;padding:0;font-variant-numeric:tabular-nums;display:grid;place-items:center}
-.tkb-luoi button[aria-pressed=true]{background:var(--dung-gio);color:#fff;border:1.5px solid var(--dung-gio)}
+.tkb-luoi button[aria-pressed=true]{background:var(--xanh-chu);color:#fff;border:1.5px solid var(--xanh-chu)}
 .tkb-luoi button .i{width:20px;height:20px;stroke-width:3}
 .chu-thich{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--chi);margin:10px 0 0}
 .chu-thich i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
@@ -126,14 +135,14 @@ h1 span{display:block}
 <main>
 <div class="mo">
   <div>
-    <h1><span>Trọn giờ lên lớp,</span><span>khớp nhịp vào ca.</span></h1>
+    <h1><span>Trọn giờ lên lớp, </span><span>khớp nhịp vào ca.</span></h1>
     <p class="dan">Ứng dụng nhận ca làm lẻ 3 đến 5 tiếng cho sinh viên Hà Nội.</p>
     <p><a class="nut" href="ung-dung.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>Bấm thử ứng dụng</a><a class="nut phu-n" href="de-an.html">Đọc đề án</a></p>
   </div>
   <div class="tkb" aria-label="Thời khóa biểu mẫu, bấm được">
     <div class="tkb-dau"><span class="ic vang"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span>Buổi trống trong tuần là ô vàng. Bấm để nhận ca.</span></div>
     <div class="tkb-luoi" id="luoi"></div>
-    <p class="chu-thich"><span><i style="background:var(--muc)"></i>Có tiết</span><span><i style="background:var(--da-quang);border:1px dashed var(--muc)"></i>Trống, có ca</span><span><i style="background:var(--dung-gio)"></i>Đã nhận</span></p>
+    <p class="chu-thich"><span><i style="background:var(--muc)"></i>Có tiết</span><span><i style="background:var(--da-quang);border:1px dashed var(--muc)"></i>Trống, có ca</span><span><i style="background:var(--xanh-chu)"></i>Đã nhận</span></p>
     <div class="tong" id="tong" aria-live="polite"></div>
     <p class="loi" id="loi" role="status"></p>
   </div>
