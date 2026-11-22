@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On Time ứng dụng nhận ca lẻ</title>
+<meta name="description" content="Bản mô phỏng ứng dụng On Time: sinh viên nhận ca làm lẻ 3 đến 5 tiếng ở quán quanh trường, quán nạp tiền trước, tiền công về trong 24 giờ. Đề án môn học, dữ liệu mẫu.">
+<meta property="og:title" content="On Time: nhận ca lẻ gần trường">
+<meta property="og:description" content="Bản mô phỏng ứng dụng của đề án On Time. Dữ liệu mẫu, không có giao dịch thật.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310203A'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23FFE14D' stroke-width='2.5'/%3E%3Cpath d='M16 10v6l4 3' stroke='%23FFE14D' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Nhìn là hiểu: mỗi khối một hình hoặc một biểu tượng, chữ ngắn; điểm nhấn duy nhất là màu bút dạ quang trên nền giấy lạnh */
+  --giay:#F4F7FB; --trang:#FFFFFF; --muc:#10203A; --chi:#56677F; --ke:#D3DBE8; --nhat:#E7EDF6;
+  --da-quang:#FFE14D; --dung-gio:#0B8A6A; --xanh-chu:#087257; --xanh-nhat:#DDF3EC; --canh-bao:#C8371F;
+  --chu:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--giay);color:var(--muc);font-family:var(--chu);font-size:17px;line-height:1.55}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--dung-gio);outline-offset:2px;border-radius:6px}
+.khung{max-width:1080px;margin:0 auto;padding:0 20px}
+.bao{background:var(--muc);color:#fff;font-size:13.5px;padding:7px 0;line-height:1.45}
+.bao b{color:var(--da-quang)}
+header.dau{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:16px 0}
+.ten{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;text-decoration:none}
+.ten i{width:30px;height:30px;border-radius:8px;background:var(--muc);display:grid;place-items:center}
+.ten i::before{content:"";width:16px;height:16px;border:2.5px solid var(--da-quang);border-radius:50%;background:linear-gradient(var(--da-quang),var(--da-quang)) 50% 30%/2.5px 6px no-repeat}
+nav.muc{display:flex;gap:4px;font-size:16px;background:var(--trang);border:1px solid var(--ke);border-radius:99px;padding:4px}
+nav.muc a{text-decoration:none;color:var(--chi);padding:7px 16px;border-radius:99px;font-weight:500}
+nav.muc a:hover{color:var(--muc)}
+nav.muc a[aria-current]{background:var(--muc);color:#fff;font-weight:700}
+h1{font-size:clamp(34px,5vw,52px);line-height:1.08;font-weight:800;margin:0 0 16px;text-wrap:balance;letter-spacing:-.015em}
+h2{font-size:clamp(24px,3vw,30px);line-height:1.2;font-weight:800;margin:0 0 6px;text-wrap:balance}
+h3{font-size:17px;line-height:1.3;margin:0 0 4px}
+p{margin:0 0 12px;max-width:60ch}
+.dan{font-size:19px;color:var(--chi)}
+.phu{color:var(--chi);margin:0 0 22px}
+.nho{font-size:14px;color:var(--chi)}
+section{padding:44px 0}
+.i{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--nhat);flex:none}
+.ic.vang{background:var(--da-quang)} .ic.xanh{background:var(--xanh-nhat);color:var(--xanh-chu)} .ic.dam{background:var(--muc);color:var(--da-quang)}
+.nut{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:13px 20px;font:700 16px var(--chu);cursor:pointer;text-decoration:none;background:var(--muc);color:#fff;margin:0 8px 8px 0}
+.nut.phu-n{background:transparent;color:var(--muc);box-shadow:inset 0 0 0 2px var(--muc)}
+.nut.vang{background:var(--da-quang);color:var(--muc)}
+.luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
+.luoi>*{min-width:0}
+.o{background:var(--trang);border:1px solid var(--ke);border-radius:16px;padding:18px}
+.o p{margin:0;color:var(--chi);font-size:15.5px;max-width:none}
+.o .ic{margin-bottom:12px}
+.vach{height:10px;background:var(--nhat);border-radius:99px;overflow:hidden}
+.vach i{display:block;height:100%;background:var(--muc);border-radius:99px}
+.cot{display:grid;gap:16px;max-width:720px}
+.cot .dong{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}
+.cot b{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+footer{background:var(--muc);color:#C9D3E3;padding:26px 0;font-size:14.5px;margin-top:28px}
+footer a{color:#fff}
+footer p{max-width:70ch;margin:0 0 8px}
+@media (max-width:520px){nav.muc a{padding:7px 12px;font-size:15px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.mo{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:20px 0 36px}
+.mo>*{min-width:0}
+.huy-hieu{list-style:none;padding:0;margin:20px 0;display:grid;gap:10px}
+.huy-hieu li{display:flex;align-items:center;gap:12px;font-weight:700}
+.huy-hieu .ic{width:42px;height:42px}
+/* sáu bước */
+.buoc6{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;counter-reset:b}
+.buoc6 div{background:var(--trang);border:1px solid var(--ke);border-radius:16px;padding:14px 10px;text-align:center;counter-increment:b;position:relative}
+.buoc6 div::before{content:counter(b);position:absolute;top:8px;left:10px;font-size:13px;font-weight:800;color:var(--chi)}
+.buoc6 .ic{margin:6px auto 10px}
+.buoc6 b{display:block;font-size:15px;line-height:1.25}
+.buoc6 span{font-size:13px;color:var(--chi);line-height:1.3;display:block;margin-top:3px}
+/* nỗi lo */
+.lo{display:grid;gap:8px}
+.lo>div{display:grid;grid-template-columns:76px minmax(0,1fr) 24px minmax(0,1fr);gap:12px;align-items:center;background:var(--trang);border:1px solid var(--ke);border-radius:14px;padding:12px 16px}
+.lo b{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+.lo .i{color:var(--chi)}
+.lo .giai{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15.5px;color:var(--xanh-chu)}
+/* phí */
+.phi{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:20px;align-items:start}
+.tinh label{display:block;font-weight:700;margin:0 0 4px;font-size:15px}
+.tinh input[type=range]{width:100%;margin-bottom:16px;accent-color:var(--muc)}
+.tinh output{font-variant-numeric:tabular-nums}
+.chia{display:grid;gap:16px}
+.chia h3{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums}
+.thanh2{display:flex;height:38px;border-radius:10px;overflow:hidden;font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.thanh2 span{display:flex;align-items:center;padding:0 10px;white-space:nowrap}
+.thanh2 .sv{background:var(--dung-gio);color:#fff;flex:1}
+.thanh2 .ph{background:var(--da-quang);color:var(--muc)}
+details{background:var(--trang);border:1px solid var(--ke);border-radius:14px;padding:13px 18px;margin:8px 0;max-width:760px}
+summary{font-weight:700;cursor:pointer}
+details p{margin:8px 0 0;color:var(--chi)}
+/* ---------- điện thoại */
+.may{width:min(360px,100%);margin:0 auto;background:var(--muc);border-radius:40px;padding:10px}
+.man{background:var(--giay);border-radius:31px;height:680px;display:flex;flex-direction:column;overflow:hidden;font-size:15px;line-height:1.4}
+.vai{display:flex;gap:4px;margin:10px 12px 8px;background:var(--nhat);border-radius:12px;padding:4px}
+.vai button{flex:1;border:0;border-radius:9px;padding:8px;font:700 14px var(--chu);background:none;color:var(--chi);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.vai button .i{width:18px;height:18px}
+.vai button[aria-pressed=true]{background:var(--muc);color:#fff}
+.chi-dan{background:var(--da-quang);font-size:13.5px;font-weight:700;padding:8px 14px;line-height:1.3;display:flex;align-items:center;gap:8px;min-height:44px}
+.chi-dan .i{width:18px;height:18px}
+.than{flex:1;overflow-y:auto;padding:12px}
+.tabs{display:flex;background:var(--trang);border-top:1px solid var(--ke)}
+.tabs button{flex:1;border:0;background:none;padding:8px 2px 10px;font:500 11.5px var(--chu);color:var(--chi);cursor:pointer;display:grid;justify-items:center;gap:2px}
+.tabs button .i{width:22px;height:22px}
+.tabs button[aria-current=true]{color:var(--muc);font-weight:800}
+.tabs button[aria-current=true] .i{stroke-width:2.6}
+.the{background:var(--trang);border:1px solid var(--ke);border-radius:16px;padding:12px;margin-bottom:10px}
+button.the{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+button.the:hover{border-color:var(--muc)}
+.the .gi{flex:1;min-width:0}
+.the .gi b{display:block;font-size:15.5px}
+.the small{display:block;color:var(--chi);font-size:13px}
+.meta{display:flex;flex-wrap:wrap;gap:4px 10px;color:var(--chi);font-size:13px;margin-top:3px}
+.meta span{display:inline-flex;align-items:center;gap:4px}
+.meta .i{width:15px;height:15px}
+.tien{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.loc{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:2px}
+.loc button{border:1px solid var(--ke);background:var(--trang);border-radius:12px;width:44px;height:40px;cursor:pointer;color:var(--muc);display:grid;place-items:center;flex:none;font:700 13px var(--chu)}
+.loc button[aria-pressed=true]{background:var(--muc);color:var(--da-quang);border-color:var(--muc)}
+.nb{width:100%;border:0;border-radius:12px;padding:12px;font:700 15px var(--chu);cursor:pointer;background:var(--muc);color:#fff;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.nb.vang{background:var(--da-quang);color:var(--muc)}
+.nb.vien{background:none;color:var(--muc);box-shadow:inset 0 0 0 1.5px var(--ke)}
+.nb.nhe{background:none;color:var(--chi);font-weight:500;padding:8px;margin-top:2px}
+.nb:disabled{opacity:.4;cursor:not-allowed}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--nhat);border-radius:99px;padding:4px 10px;font-size:13px;font-weight:500;margin:6px 6px 0 0}
+.chip .i{width:15px;height:15px}
+.chip.xanh{background:var(--xanh-nhat);color:var(--xanh-chu);font-weight:700}
+.dau-the{display:flex;align-items:center;gap:12px}
+.dau-the .tien{font-size:19px}
+.the-quan{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:7px;font-size:14px}
+.the-quan li{display:flex;align-items:center;gap:8px}
+.the-quan .i{width:18px;height:18px;color:var(--chi)}
+.vd{position:relative;border:0;width:100%;height:92px;border-radius:12px;background:var(--muc);color:#fff;cursor:pointer;display:grid;place-items:center;font:700 14px var(--chu);overflow:hidden;margin-top:8px}
+.vd .tron{width:44px;height:44px;border-radius:50%;background:var(--da-quang);color:var(--muc);display:grid;place-items:center}
+.vd .chay{position:absolute;left:0;bottom:0;height:5px;background:var(--da-quang);width:0;animation:chay 1.5s linear forwards}
+@keyframes chay{to{width:100%}}
+.vd.xong{background:var(--xanh-nhat);color:var(--xanh-chu);cursor:default}
+.cham6{display:flex;gap:5px;margin:10px 0 0}
+.cham6 i{flex:1;height:6px;border-radius:99px;background:var(--nhat)}
+.cham6 i.x{background:var(--dung-gio)} .cham6 i.d{background:var(--da-quang);outline:1.5px solid var(--muc)}
+.canh{text-align:center;padding:14px 8px 6px}
+.canh .to{width:112px;height:112px;border-radius:28px;background:var(--trang);border:1px solid var(--ke);display:grid;place-items:center;margin:0 auto 12px}
+.canh .to .i{width:52px;height:52px;stroke-width:1.6}
+.canh .to.xanh{background:var(--xanh-nhat);border-color:transparent;color:var(--xanh-chu)}
+.canh .to.vang{background:var(--da-quang);border-color:transparent}
+.canh b{display:block;font-size:17px}
+.canh small{color:var(--chi);font-size:13.5px}
+.sao{display:flex;justify-content:center;gap:2px}
+.sao button{border:0;background:none;cursor:pointer;color:var(--ke);padding:2px}
+.sao button .i{width:34px;height:34px;fill:currentColor;stroke:none}
+.sao button.bat{color:#E0A800}
+.so-du{background:var(--muc);color:#fff;border-radius:16px;padding:16px;margin-bottom:10px}
+.so-du small{color:#C9D3E3;font-size:13px}
+.so-du b{display:block;font-size:28px;font-weight:800;color:var(--da-quang);font-variant-numeric:tabular-nums}
+.hai-o{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.hai-o .the{margin:0;text-align:center}
+.hai-o b{display:block;font-size:22px;font-weight:800}
+.loi{color:var(--canh-bao);font-size:13.5px;font-weight:700;margin-top:6px}
+.o-nhap{width:100%;padding:9px 10px;border:1px solid var(--ke);border-radius:10px;font:500 15px var(--chu);background:var(--trang);color:var(--muc)}
+.than label{display:block;font-weight:700;font-size:13.5px;margin:10px 0 4px}
+.than label.chon{display:flex;align-items:center;gap:8px;font-weight:500}
+.dong{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:3px 0}
+.trong{text-align:center;color:var(--chi);padding:26px 10px}
+.trong .ic{margin:0 auto 10px;width:56px;height:56px}
+@media (max-width:980px){.buoc6{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:860px){.mo{grid-template-columns:1fr;gap:24px}.phi{grid-template-columns:1fr}.man{height:640px}}
+@media (max-width:640px){.lo>div{grid-template-columns:64px minmax(0,1fr);gap:4px 12px}.lo>div>.i{display:none}.lo .giai{grid-column:2}.buoc6{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="bao"><div class="khung"><b>Bản mô phỏng.</b> Dữ liệu mẫu của một đề án môn học: không có tài khoản, ca làm hay tiền thật.</div></div>
+<div class="khung">
+<header class="dau">
+  <a class="ten" href="index.html" aria-label="On Time, trang công ty"><i></i>On Time</a>
+  <nav class="muc" aria-label="Các trang"><a href="index.html">Công ty</a><a href="ung-dung.html" aria-current="page">Ứng dụng</a><a href="de-an.html">Đề án</a></nav>
+</header>
+
+<main>
+<div class="mo">
+  <div>
+    <h1>Có buổi trống? Nhận một ca gần trường.</h1>
+    <p class="dan">Ca lẻ 3 đến 5 tiếng ở quán quanh trường. Làm xong ca nào, nhận tiền ca đó.</p>
+    <ul class="huy-hieu">
+      <li><span class="ic vang"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span>Không phỏng vấn</li>
+      <li><span class="ic xanh"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v10a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z"/><path d="M16 14h.5"/></svg></span>Quán nạp tiền trước</li>
+      <li><span class="ic xanh"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><text x="12" y="16.4" text-anchor="middle" font-size="12" font-weight="800" fill="currentColor" stroke="none">đ</text></svg></span>Tiền về trong 24 giờ</li>
+    </ul>
+    <p class="nho">Bấm thử trên điện thoại mẫu. Dòng vàng trong máy chỉ bước tiếp theo.</p>
+  </div>
+  <div class="may" id="may" aria-label="Bản mô phỏng ứng dụng On Time">
+    <div class="man">
+      <div class="vai" role="group" aria-label="Chọn vai">
+        <button type="button" id="vai-sv" data-vai="sv" aria-pressed="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Sinh viên</button>
+        <button type="button" id="vai-quan" data-vai="quan" aria-pressed="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11v9h16v-9"/><path d="M3 10l2-6h14l2 6a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M10 20v-5h4v5"/></svg>Chủ quán</button>
+      </div>
+      <div class="chi-dan" aria-live="polite"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span id="chi-dan"></span></div>
+      <div class="than" id="than"></div>
+      <div class="tabs" id="tabs"></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <h2>Một ca, sáu bước</h2>
+  <p class="phu">Từ lúc quán đăng ca đến lúc tiền về ví.</p>
+  <div class="buoc6">
+    <div><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11v9h16v-9"/><path d="M3 10l2-6h14l2 6a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M10 20v-5h4v5"/></svg></span><b>Quán đăng ca</b><span>nạp tiền trước</span></div>
+    <div><span class="ic vang"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><b>Bạn nhận ca</b><span>không phỏng vấn</span></div>
+    <div><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/></svg></span><b>Xem video</b><span>một phút</span></div>
+    <div><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20.5 14.5v0M20.5 20.5v0M17.5 20.5v0M20.5 17.5v0"/></svg></span><b>Quét mã vào ca</b><span>chỉ việc 5 phút</span></div>
+    <div><span class="ic xanh"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><text x="12" y="16.4" text-anchor="middle" font-size="12" font-weight="800" fill="currentColor" stroke="none">đ</text></svg></span><b>Quét mã ra ca</b><span>tiền về trong 24 giờ</span></div>
+    <div><span class="ic vang"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L3.5 9.7l5.9-.9z"/></svg></span><b>Chấm điểm</b><span>hai chiều</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Sinh viên lo gì, On Time làm gì</h2>
+  <p class="phu">Tỷ lệ lấy từ khảo sát sinh viên của nhóm, tháng 11/2026.</p>
+  <div class="lo">
+    <div><b>66,7%</b><span>cần xếp ca linh hoạt nhất</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="giai"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Tự chọn từng ca</span></div>
+    <div><b>47,2%</b><span>ngại vì không biết việc</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="giai"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/></svg>Video một phút, thẻ quán năm dòng</span></div>
+    <div><b>44,4%</b><span>lo không an toàn</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="giai"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Ca 6 đến 22 giờ, có bảo hiểm</span></div>
+    <div><b>41,7%</b><span>ngại quán xa</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="giai"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Chỉ hiện ca quanh trường</span></div>
+    <div><b>36,1%</b><span>sợ không được trả tiền</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="giai"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v10a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z"/><path d="M16 14h.5"/></svg>Quán nạp trước, 24 giờ tiền về</span></div>
+  </div>
+</section>
+
+<section id="phi">
+  <h2>Một ca chia tiền thế nào</h2>
+  <p class="phu">Sinh viên nhận đủ tiền công. Phí do quán trả. Kéo thử.</p>
+  <div class="phi">
+    <div class="o tinh">
+      <label for="t-gio">Số giờ: <output id="o-gio">4</output> giờ</label>
+      <input type="range" id="t-gio" min="3" max="5" step="1" value="4">
+      <label for="t-luong">Lương giờ: <output id="o-luong">32.000</output> đồng</label>
+      <input type="range" id="t-luong" min="27400" max="45000" step="200" value="32000">
+      <p class="nho">Thấp nhất 27.400 đồng, lương tối thiểu giờ vùng I từ 1/1/2027.</p>
+    </div>
+    <div class="chia">
+      <div><h3><span>Người mới, phí 20%</span><span id="k-q1"></span></h3><div class="thanh2"><span class="sv" id="k-sv1"></span><span class="ph" id="k-p1"></span></div></div>
+      <div><h3><span>Mời lại người quen, phí 15%</span><span id="k-q2"></span></h3><div class="thanh2"><span class="sv" id="k-sv2"></span><span class="ph" id="k-p2"></span></div></div>
+      <p class="nho" style="margin:0"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--dung-gio);vertical-align:-1px"></span> Sinh viên nhận &nbsp; <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--da-quang);vertical-align:-1px"></span> Phí On Time &nbsp; Số bên phải: quán trả.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Hỏi đáp</h2>
+  <details><summary>Đây có phải ứng dụng thật không?</summary><p>Chưa. On Time là doanh nghiệp giả định trong đề án giữa kỳ của Nhóm 7. Trang này để bấm thử cách ứng dụng sẽ chạy, không thu thông tin của bạn.</p></details>
+  <details><summary>Có những loại việc nào?</summary><p>Năm đầu chỉ có việc đơn giản: dọn bàn, rửa bát, bưng bê, xếp hàng và kiểm kho, phát tờ rơi. Không nhận việc ở quán bar và karaoke.</p></details>
+  <details><summary>Quán hủy ca sát giờ thì sao?</summary><p>Hủy trong 12 giờ trước giờ làm, quán trả 50% tiền công của ca.</p></details>
+  <details><summary>Nhận ca rồi không đến thì sao?</summary><p>Muốn hủy phải báo trước 12 giờ. Bỏ ca ba lần thì tài khoản bị khóa 30 ngày.</p></details>
+  <details><summary>Vì sao quán vẫn đặt qua ứng dụng sau ca đầu?</summary><p>Đi ngoài ứng dụng thì mất bảo đảm tiền công, bảo hiểm, người dự bị và điểm uy tín. Mời lại người quen chỉ tốn 15% phí.</p></details>
+</section>
+</main>
+</div>
+<footer><div class="khung">
+  <p><b>On Time</b> là doanh nghiệp giả định. Trang thuộc đề án giữa kỳ môn Văn hóa doanh nghiệp Nhật Bản của Nhóm 7, tháng 11/2026. Phí và tiền công là giả định, trừ mức lương tối thiểu.</p>
+</div></footer>
+
+<script>
+(function(){
+"use strict";
+var IC = {"dong-ho": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>", "lich": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 10h18M8 3v4M16 3v4\"/>", "tien": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><text x=\"12\" y=\"16.4\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"800\" fill=\"currentColor\" stroke=\"none\">đ</text>", "khien": "<path d=\"M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z\"/><path d=\"M9 12l2 2 4-4\"/>", "qr": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1\"/><path d=\"M14 14h3v3h-3zM20.5 14.5v0M20.5 20.5v0M17.5 20.5v0M20.5 17.5v0\"/>", "video": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M10 8.5v7l6-3.5z\"/>", "sao": "<path d=\"M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L3.5 9.7l5.9-.9z\"/>", "nguoi": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7\"/>", "quan": "<path d=\"M4 11v9h16v-9\"/><path d=\"M3 10l2-6h14l2 6a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z\"/><path d=\"M10 20v-5h4v5\"/>", "dien-thoai": "<rect x=\"7\" y=\"2.5\" width=\"10\" height=\"19\" rx=\"2.5\"/><path d=\"M11 18.5h2\"/>", "hai-chieu": "<path d=\"M4 8h14l-3-3M20 16H6l3 3\"/>", "lap": "<path d=\"M20 12a8 8 0 1 1-2.6-5.9\"/><path d=\"M20 4v5h-5\"/>", "ghim": "<path d=\"M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z\"/><circle cx=\"12\" cy=\"9.5\" r=\"2.5\"/>", "sach": "<path d=\"M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z\"/><path d=\"M5 17a3 3 0 0 1 3-3h11\"/>", "tin": "<path d=\"M4 5h16v11H9l-5 4z\"/><path d=\"M8 9h8M8 12h5\"/>", "huy": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9 9l6 6M15 9l-6 6\"/>", "kiem": "<path d=\"M5 12.5l4.5 4.5L19 7.5\"/>", "khoa": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>", "mui-ten": "<path d=\"M5 12h14M13 6l6 6-6 6\"/>", "lui": "<path d=\"M19 12H5M11 6l-6 6 6 6\"/>", "cua": "<path d=\"M6 21V4h9v17M4 21h16\"/><path d=\"M15 7l4 1v13M11.5 12.5v1\"/>", "ban": "<path d=\"M3 9h18M6 9v10M18 9v10\"/><path d=\"M9 5.5h6V9H9z\"/>", "bat": "<circle cx=\"12\" cy=\"12\" r=\"8.5\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/>", "khay": "<path d=\"M3 16h18M5 16a7 7 0 0 1 14 0M12 6.5V9M9 20h6\"/>", "hop": "<path d=\"M3 8l9-4 9 4v9l-9 4-9-4z\"/><path d=\"M3 8l9 4 9-4M12 12v9\"/>", "to-roi": "<path d=\"M6 3h9l4 4v14H6z\"/><path d=\"M15 3v4h4M9 12h7M9 16h5\"/>", "vi": "<path d=\"M3 7a2 2 0 0 1 2-2h13v4\"/><path d=\"M3 7v10a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z\"/><path d=\"M16 14h.5\"/>", "chevron": "<path d=\"M9 6l6 6-6 6\"/>"};
+function ic(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+IC[n]+'</svg>'; }
+var d = function(n){ return n.toLocaleString("vi-VN") + "đ"; };
+var MIN = 27400;
+var VIEC = [["Dọn bàn","ban"],["Rửa bát","bat"],["Bưng bê","khay"],["Xếp hàng, kiểm kho","hop"],["Phát tờ rơi","to-roi"]];
+var ICV = {}; VIEC.forEach(function(v){ ICV[v[0]] = v[1]; });
+var CA = [
+ {id:1, quan:"Cà phê Sân Trường", viec:"Dọn bàn", ngay:"Hôm nay", gio:"14:00 đến 18:00", h:4, luong:32000, xa:"400 m"},
+ {id:2, quan:"Trà sữa Giờ Ra Chơi", viec:"Bưng bê", ngay:"Hôm nay", gio:"18:00 đến 21:00", h:3, luong:33000, xa:"650 m"},
+ {id:3, quan:"Cơm Căng Tin Nhỏ", viec:"Rửa bát", ngay:"Ngày mai", gio:"11:00 đến 14:00", h:3, luong:31000, xa:"300 m"},
+ {id:4, quan:"Tạp hóa Đầu Ngõ", viec:"Xếp hàng, kiểm kho", ngay:"Thứ Bảy", gio:"8:00 đến 13:00", h:5, luong:30000, xa:"900 m"},
+ {id:5, quan:"Bánh mì Chuông Reo", viec:"Phát tờ rơi", ngay:"Chủ nhật", gio:"9:00 đến 12:00", h:3, luong:30000, xa:"1,1 km"}
+];
+var THE = [["hop","Đồ dùng ở kệ sau quầy"],["nguoi","Hỏi chị quản lý ca"],["huy","Không vào khu bếp nóng"],["cua","Lối thoát hiểm ở cửa sau"],["dong-ho","Nghỉ 10 phút giữa ca"]];
+var S = {vai:"sv", tab:"ca", loc:"", xem:null, video:{}, phat:false, ca:null, moc:0, vi:0, ls:[], gio:6, soCa:3, uy:98, sao:0, bao:false,
+         q:{viec:VIEC[0][0], h:4, luong:32000, quen:false, loi:"", ds:[]}};
+var than = document.getElementById("than"), tabs = document.getElementById("tabs"), hen = null;
+var giam = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function tong(c){ return c.h * c.luong; }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function qr(){
+  var N = 21, o = [], x = 7, i, j;
+  function goc(r, c){ return (r < 7 && c < 7) || (r < 7 && c >= N-7) || (r >= N-7 && c < 7); }
+  function mat(r, c){ var a = r % (N-7), b = c % (N-7); if (r >= N-7) a = r - (N-7); if (c >= N-7) b = c - (N-7); return a === 0 || a === 6 || b === 0 || b === 6 || (a >= 2 && a <= 4 && b >= 2 && b <= 4); }
+  var s = '<svg viewBox="0 0 21 21" width="80" height="80" shape-rendering="crispEdges" aria-hidden="true"><rect width="21" height="21" fill="#fff"/>';
+  for (i = 0; i < N; i++) for (j = 0; j < N; j++){
+    var den; if (goc(i, j)) den = mat(i, j); else { x = (x * 73 + 41) % 251; den = x % 2 === 0 && !((i === 7 || i === N-8) && j < 8) && !((j === 7 || j === N-8) && i < 8); }
+    if (den) s += '<rect x="'+j+'" y="'+i+'" width="1" height="1" fill="#10203A"/>';
+  }
+  return s + '</svg>';
+}
+function chiDan(){
+  if (S.vai === "quan"){
+    if (S.tab === "dang") return "Chọn việc, giờ, lương rồi bấm Đăng ca.";
+    return S.q.ds.length ? "Bấm nút trong thẻ ca để đi tiếp." : "Chưa có ca. Mở mục Đăng ca.";
+  }
+  if (S.ca){
+    if (S.tab !== "toi") return "Bạn đang có một ca. Mở mục Ca của tôi.";
+    return ["Bước 3/6. Đến quán, quét mã vào ca.","Bước 4/6. Nghe chỉ việc rồi bắt đầu.","Bước 4/6. Đang làm. Tua tới hết ca.","Bước 5/6. Hết ca, quét mã ra ca.","Bước 5/6. Tiền đã về ví. Sang chấm điểm.","Bước 6/6. Chọn số sao, gửi điểm."][S.moc];
+  }
+  if (S.xem) return S.video[S.xem.viec] ? "Bước 2/6. Bấm Nhận ca." : "Bước 2/6. Xem video một phút.";
+  if (S.ls.length) return "Xong một ca. Thử đổi sang vai Chủ quán.";
+  if (S.tab !== "ca") return "Mở mục Ca để chọn một ca.";
+  return "Bước 1/6. Chạm vào một ca.";
+}
+function veTabs(){
+  var m = S.vai === "sv" ? [["ca","Ca","ghim"],["toi","Ca của tôi","lich"],["vi","Ví","vi"],["ho","Hồ sơ","nguoi"]] : [["dang","Đăng ca","quan"],["ds","Ca đã đăng","lich"]];
+  tabs.innerHTML = m.map(function(x){ return '<button type="button" data-tab="'+x[0]+'" aria-current="'+(S.tab===x[0])+'">'+ic(x[2])+x[1]+'</button>'; }).join("");
+}
+function meta(c){ return '<span class="meta"><span>'+ic("dong-ho")+c.ngay+', '+c.gio.split(" ")[0]+'</span><span>'+ic("ghim")+c.xa+'</span></span>'; }
+function veCa(){
+  if (S.xem){ var c = S.xem, da = S.video[c.viec], qua = S.gio + c.h > 20;
+    return '<button class="nb nhe" type="button" data-act="lui" style="justify-content:flex-start;margin:0 0 4px">'+ic("lui")+'Danh sách ca</button>'+
+      '<div class="the"><div class="dau-the"><span class="ic vang">'+ic(ICV[c.viec])+'</span><span class="gi"><b>'+esc(c.viec)+'</b><small>'+esc(c.quan)+'</small></span><span class="tien">'+d(tong(c))+'</span></div>'+
+      '<span class="chip">'+ic("dong-ho")+c.ngay+', '+c.gio+'</span><span class="chip">'+ic("ghim")+c.xa+'</span><span class="chip">'+c.h+' giờ × '+d(c.luong)+'</span><span class="chip xanh">'+ic("khien")+'Quán đã nạp tiền</span></div>'+
+      '<div class="the"><b>Thẻ quán</b><ul class="the-quan">'+THE.map(function(t){ return '<li>'+ic(t[0])+t[1]+'</li>'; }).join("")+'</ul></div>'+
+      (da ? '<div class="vd xong">'+ic("kiem")+' Đã xem video '+esc(c.viec).toLowerCase()+'</div>'
+          : '<button type="button" class="vd" data-act="video" aria-label="Xem video một phút: '+esc(c.viec)+'"><span class="tron">'+ic("video")+'</span><span>Video một phút: '+esc(c.viec)+'</span>'+(S.phat ? '<i class="chay"></i>' : "")+'</button>')+
+      (S.ca ? '<div class="loi">Làm xong ca đang có rồi nhận ca mới.</div>' : "")+(qua ? '<div class="loi">Nhận ca này sẽ vượt 20 giờ một tuần.</div>' : "")+
+      '<button class="nb vang" type="button" data-act="nhan" '+((!da || S.ca || qua) ? "disabled" : "")+'>Nhận ca</button>';
+  }
+  var ds = CA.filter(function(c){ return (!S.loc || c.viec === S.loc) && !(S.ca && S.ca.id === c.id); });
+  return '<div class="loc" role="group" aria-label="Lọc theo loại việc"><button type="button" data-loc="" aria-pressed="'+(!S.loc)+'">Hết</button>'+VIEC.map(function(v){ return '<button type="button" data-loc="'+esc(v[0])+'" aria-pressed="'+(S.loc===v[0])+'" aria-label="'+esc(v[0])+'" title="'+esc(v[0])+'">'+ic(v[1])+'</button>'; }).join("")+'</div>'+
+    (ds.length ? ds.map(function(c){ return '<button type="button" class="the" data-act="xem" data-id="'+c.id+'"><span class="ic vang">'+ic(ICV[c.viec])+'</span><span class="gi"><b>'+esc(c.viec)+'</b><small>'+esc(c.quan)+'</small>'+meta(c)+'</span><span class="tien">'+d(tong(c))+'</span></button>'; }).join("")
+               : '<div class="trong"><span class="ic">'+ic("ghim")+'</span>Chưa có ca loại này quanh trường.</div>');
+}
+function canh(icon, lop, tieuDe, phu){ return '<div class="canh"><div class="to '+lop+'">'+icon+'</div><b>'+tieuDe+'</b><small>'+phu+'</small></div>'; }
+function veToi(){
+  if (!S.ca) return '<div class="trong"><span class="ic">'+ic("lich")+'</span>Bạn chưa nhận ca nào.<button class="nb" type="button" data-tab="ca">Xem ca gần trường</button></div>';
+  var c = S.ca, k = S.moc, h = '<div class="the"><div class="dau-the"><span class="ic vang">'+ic(ICV[c.viec])+'</span><span class="gi"><b>'+esc(c.viec)+'</b><small>'+esc(c.quan)+', '+c.gio+'</small></span><span class="tien">'+d(tong(c))+'</span></div><div class="cham6" role="img" aria-label="Bước '+(k+1)+' trên 6">'+[0,1,2,3,4,5].map(function(i){ return '<i class="'+(i<k?"x":i===k?"d":"")+'"></i>'; }).join("")+'</div></div>';
+  if (k === 0) h += canh(qr(), "", "Quét mã vào ca", "Mã dán ở quầy của quán")+'<button class="nb vang" type="button" data-act="tien">'+ic("qr")+'Quét mã</button><button class="nb nhe" type="button" data-act="huy">Hủy ca (báo trước 12 giờ)</button>';
+  else if (k === 1) h += canh(ic("tin"), "", "Chỉ việc 5 phút", "Người của quán dặn theo thẻ quán")+'<button class="nb" type="button" data-act="tien">Bắt đầu làm</button>';
+  else if (k === 2) h += canh(ic("dong-ho"), "vang", "Đang trong ca", c.gio)+(S.bao ? '<div class="the" style="font-size:14px"><b>Báo sự cố, ba dòng</b><br>Chuyện gì: ...<br>Đang ở đâu: ...<br>Cần gì: ...</div>' : "")+'<button class="nb" type="button" data-act="tien">Tua tới hết ca</button><button class="nb nhe" type="button" data-act="suco">'+ic("tin")+'Báo sự cố</button>';
+  else if (k === 3) h += canh(qr(), "", "Quét mã ra ca", "Quán xác nhận là tiền được chuyển")+'<button class="nb vang" type="button" data-act="tien">'+ic("qr")+'Quét mã</button>';
+  else if (k === 4) h += canh(ic("tien"), "xanh", "+"+d(tong(c)), "Tiền công đã về ví trong 24 giờ")+'<button class="nb" type="button" data-act="tien">Chấm điểm quán</button>';
+  else h += '<div class="canh"><b>Quán này thế nào?</b><small>Tiền công, môi trường, thái độ, đúng mô tả, giờ giấc</small></div><div class="sao" role="group" aria-label="Chấm quán từ 1 đến 5 sao">'+[1,2,3,4,5].map(function(i){ return '<button type="button" data-sao="'+i+'" class="'+(i<=S.sao?"bat":"")+'" aria-label="'+i+' sao">'+ic("sao")+'</button>'; }).join("")+'</div><button class="nb vang" type="button" data-act="xong" '+(S.sao?"":"disabled")+'>Gửi điểm</button>';
+  return h;
+}
+function veVi(){
+  return '<div class="so-du"><small>Số dư</small><b>'+d(S.vi)+'</b></div>'+
+    (S.ls.length ? S.ls.map(function(x){ return '<div class="the dau-the"><span class="ic xanh">'+ic(ICV[x.v])+'</span><span class="gi"><b>'+esc(x.v)+'</b><small>'+esc(x.q)+'</small></span><span class="tien">+'+d(x.n)+'</span></div>'; }).join("")
+                 : '<div class="trong"><span class="ic">'+ic("vi")+'</span>Làm xong ca đầu, tiền công hiện ở đây.</div>');
+}
+function veHo(){
+  return '<div class="the dau-the"><span class="ic dam">'+ic("nguoi")+'</span><span class="gi"><b>Sinh viên mẫu</b><small>Năm ba, đủ 18 tuổi</small></span></div>'+
+    '<div class="hai-o"><div class="the"><b>'+S.uy+'</b><small>điểm uy tín</small></div><div class="the"><b>'+S.soCa+'</b><small>ca đã làm</small></div></div>'+
+    '<div class="the"><div class="dong"><span>Giờ làm tuần này</span><span class="tien">'+S.gio+'/20</span></div><div class="vach" style="margin-top:6px"><i style="width:'+Math.min(100,S.gio*5)+'%;background:var(--dung-gio)"></i></div></div>';
+}
+function veDang(){
+  var q = S.q, tc = q.h*q.luong, ty = q.quen ? 15 : 20, phi = Math.round(tc*ty/100);
+  return '<div class="the"><label for="q-viec" style="margin-top:0">Loại việc</label><select class="o-nhap" id="q-viec">'+VIEC.map(function(v){ return '<option'+(v[0]===q.viec?" selected":"")+'>'+v[0]+'</option>'; }).join("")+'</select>'+
+    '<label for="q-h">Số giờ</label><select class="o-nhap" id="q-h">'+[3,4,5].map(function(h){ return '<option value="'+h+'"'+(h===q.h?" selected":"")+'>'+h+' giờ</option>'; }).join("")+'</select>'+
+    '<label for="q-luong">Lương giờ (đồng)</label><input class="o-nhap" id="q-luong" type="number" inputmode="numeric" min="'+MIN+'" step="500" value="'+q.luong+'">'+
+    (q.loi ? '<div class="loi">'+q.loi+'</div>' : "")+
+    '<label class="chon"><input type="checkbox" id="q-quen" '+(q.quen?"checked":"")+'> Mời lại người quen (phí 15%)</label></div>'+
+    '<div class="the"><div class="dong"><span>Sinh viên nhận</span><span class="tien">'+d(tc)+'</span></div><div class="dong"><span>Phí On Time '+ty+'%</span><span class="tien">'+d(phi)+'</span></div><div class="dong"><b>Quán nạp trước</b><span class="tien">'+d(tc+phi)+'</span></div></div>'+
+    '<button class="nb vang" type="button" data-act="dang">Đăng ca</button>';
+}
+var TT = ["Chờ người nhận","Đã có sinh viên nhận","Sinh viên đã ra ca","Đã chuyển tiền"];
+var NUT = ["Giả lập: có người nhận","Giả lập: hết ca","Xác nhận hoàn thành"];
+function veDs(){
+  var ds = S.q.ds;
+  if (!ds.length) return '<div class="trong"><span class="ic">'+ic("quan")+'</span>Quán chưa đăng ca nào.<button class="nb" type="button" data-tab="dang">Đăng ca đầu tiên</button></div>';
+  return ds.map(function(c,i){ return '<div class="the"><div class="dau-the"><span class="ic vang">'+ic(ICV[c.viec])+'</span><span class="gi"><b>'+esc(c.viec)+', '+c.h+' giờ</b><small>Phí '+c.ty+'%</small></span><span class="tien">'+d(c.nap)+'</span></div>'+
+    '<span class="chip '+(c.huy ? "" : c.tt===3 ? "xanh" : "")+'">'+(c.huy ? ic("huy")+"Đã hủy sát giờ, trả 50% tiền công" : (c.tt===3 ? ic("kiem") : ic("dong-ho"))+TT[c.tt])+'</span>'+
+    (c.huy || c.tt>2 ? "" : '<button class="nb" type="button" data-act="qtien" data-i="'+i+'">'+NUT[c.tt]+'</button>')+
+    (!c.huy && c.tt===1 ? '<button class="nb nhe" type="button" data-act="qhuy" data-i="'+i+'">Hủy ca sát giờ</button>' : "")+'</div>'; }).join("");
+}
+function ve(){
+  document.getElementById("vai-sv").setAttribute("aria-pressed", S.vai==="sv");
+  document.getElementById("vai-quan").setAttribute("aria-pressed", S.vai==="quan");
+  veTabs();
+  than.innerHTML = ({ca:veCa, toi:veToi, vi:veVi, ho:veHo, dang:veDang, ds:veDs})[S.tab]();
+  document.getElementById("chi-dan").textContent = chiDan();
+}
+function xongVideo(){ hen = null; if (S.xem) S.video[S.xem.viec] = true; S.phat = false; ve(); }
+document.querySelector(".vai").addEventListener("click", function(e){ var b = e.target.closest("[data-vai]"); if(!b) return; S.vai = b.dataset.vai; S.tab = S.vai==="sv" ? "ca" : "dang"; S.xem = null; ve(); });
+document.querySelector(".man").addEventListener("click", function(e){
+  var t = e.target.closest("[data-tab]"); if (t){ S.tab = t.dataset.tab; S.xem = null; ve(); than.scrollTop = 0; return; }
+  var l = e.target.closest("[data-loc]"); if (l){ S.loc = l.dataset.loc; ve(); return; }
+  var s = e.target.closest("[data-sao]"); if (s){ S.sao = +s.dataset.sao; ve(); return; }
+  var b = e.target.closest("[data-act]"); if (!b) return; var a = b.dataset.act;
+  if (a==="xem"){ S.xem = CA.filter(function(c){ return c.id === +b.dataset.id; })[0]; S.phat = false; than.scrollTop = 0; }
+  else if (a==="lui"){ S.xem = null; }
+  else if (a==="video"){ if (S.phat) return; if (giam){ xongVideo(); return; } S.phat = true; hen = setTimeout(xongVideo, 1550); }
+  else if (a==="nhan"){ S.ca = S.xem; S.moc = 0; S.sao = 0; S.bao = false; S.xem = null; S.tab = "toi"; }
+  else if (a==="tien"){ S.moc++; S.bao = false; if (S.moc===4){ var n = tong(S.ca); S.vi += n; S.ls.unshift({v:S.ca.viec, q:S.ca.quan, n:n}); S.gio += S.ca.h; S.soCa++; } than.scrollTop = 0; }
+  else if (a==="suco"){ S.bao = true; }
+  else if (a==="huy"){ S.ca = null; S.tab = "ca"; }
+  else if (a==="xong"){ S.ca = null; S.moc = 0; S.tab = "vi"; }
+  else if (a==="dang"){ var q = S.q; if (!(q.luong >= MIN)){ q.loi = "Lương giờ thấp nhất là "+d(MIN)+"."; }
+    else { q.loi = ""; var tc = q.h*q.luong, ty = q.quen?15:20; q.ds.unshift({viec:q.viec, h:q.h, ty:ty, nap:tc+Math.round(tc*ty/100), tt:0}); S.tab = "ds"; } }
+  else if (a==="qtien"){ S.q.ds[+b.dataset.i].tt++; }
+  else if (a==="qhuy"){ S.q.ds[+b.dataset.i].huy = true; }
+  ve();
+});
+document.querySelector(".man").addEventListener("change", function(e){ var q = S.q, id = e.target.id;
+  if (id==="q-viec") q.viec = e.target.value; else if (id==="q-h") q.h = +e.target.value;
+  else if (id==="q-luong"){ q.luong = +e.target.value; q.loi = ""; } else if (id==="q-quen") q.quen = e.target.checked; else return; ve(); });
+ve();
+// một ca chia tiền thế nào
+var g = document.getElementById("t-gio"), lu = document.getElementById("t-luong");
+function tinh(){ var h = +g.value, w = +lu.value, tc = h*w; document.getElementById("o-gio").textContent = h; document.getElementById("o-luong").textContent = w.toLocaleString("vi-VN");
+  [["1",.2],["2",.15]].forEach(function(x){ var p = Math.round(tc*x[1]); document.getElementById("k-sv"+x[0]).textContent = d(tc); document.getElementById("k-p"+x[0]).textContent = d(p); document.getElementById("k-q"+x[0]).textContent = d(tc+p); }); }
+g.addEventListener("input", tinh); lu.addEventListener("input", tinh); tinh();
+})();
+</script>
+</body>
+</html>

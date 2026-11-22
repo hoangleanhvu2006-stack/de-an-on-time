@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On Time</title>
+<meta name="description" content="On Time là doanh nghiệp giả định trong đề án môn Văn hóa doanh nghiệp Nhật Bản: ứng dụng nhận ca làm lẻ cho sinh viên Hà Nội, học từ mô hình việc làm ca lẻ của Nhật.">
+<meta property="og:title" content="On Time: trọn giờ lên lớp, khớp nhịp vào ca">
+<meta property="og:description" content="Doanh nghiệp giả định của Nhóm 7: ứng dụng nhận ca làm lẻ cho sinh viên, học từ mô hình việc làm ca lẻ của Nhật.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310203A'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23FFE14D' stroke-width='2.5'/%3E%3Cpath d='M16 10v6l4 3' stroke='%23FFE14D' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Nhìn là hiểu: mỗi khối một hình hoặc một biểu tượng, chữ ngắn; điểm nhấn duy nhất là màu bút dạ quang trên nền giấy lạnh */
+  --giay:#F4F7FB; --trang:#FFFFFF; --muc:#10203A; --chi:#56677F; --ke:#D3DBE8; --nhat:#E7EDF6;
+  --da-quang:#FFE14D; --dung-gio:#0B8A6A; --xanh-chu:#087257; --xanh-nhat:#DDF3EC; --canh-bao:#C8371F;
+  --chu:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--giay);color:var(--muc);font-family:var(--chu);font-size:17px;line-height:1.55}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--dung-gio);outline-offset:2px;border-radius:6px}
+.khung{max-width:1080px;margin:0 auto;padding:0 20px}
+.bao{background:var(--muc);color:#fff;font-size:13.5px;padding:7px 0;line-height:1.45}
+.bao b{color:var(--da-quang)}
+header.dau{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:16px 0}
+.ten{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;text-decoration:none}
+.ten i{width:30px;height:30px;border-radius:8px;background:var(--muc);display:grid;place-items:center}
+.ten i::before{content:"";width:16px;height:16px;border:2.5px solid var(--da-quang);border-radius:50%;background:linear-gradient(var(--da-quang),var(--da-quang)) 50% 30%/2.5px 6px no-repeat}
+nav.muc{display:flex;gap:4px;font-size:16px;background:var(--trang);border:1px solid var(--ke);border-radius:99px;padding:4px}
+nav.muc a{text-decoration:none;color:var(--chi);padding:7px 16px;border-radius:99px;font-weight:500}
+nav.muc a:hover{color:var(--muc)}
+nav.muc a[aria-current]{background:var(--muc);color:#fff;font-weight:700}
+h1{font-size:clamp(34px,5vw,52px);line-height:1.08;font-weight:800;margin:0 0 16px;text-wrap:balance;letter-spacing:-.015em}
+h2{font-size:clamp(24px,3vw,30px);line-height:1.2;font-weight:800;margin:0 0 6px;text-wrap:balance}
+h3{font-size:17px;line-height:1.3;margin:0 0 4px}
+p{margin:0 0 12px;max-width:60ch}
+.dan{font-size:19px;color:var(--chi)}
+.phu{color:var(--chi);margin:0 0 22px}
+.nho{font-size:14px;color:var(--chi)}
+section{padding:44px 0}
+.i{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--nhat);flex:none}
+.ic.vang{background:var(--da-quang)} .ic.xanh{background:var(--xanh-nhat);color:var(--xanh-chu)} .ic.dam{background:var(--muc);color:var(--da-quang)}
+.nut{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:13px 20px;font:700 16px var(--chu);cursor:pointer;text-decoration:none;background:var(--muc);color:#fff;margin:0 8px 8px 0}
+.nut.phu-n{background:transparent;color:var(--muc);box-shadow:inset 0 0 0 2px var(--muc)}
+.nut.vang{background:var(--da-quang);color:var(--muc)}
+.luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
+.luoi>*{min-width:0}
+.o{background:var(--trang);border:1px solid var(--ke);border-radius:16px;padding:18px}
+.o p{margin:0;color:var(--chi);font-size:15.5px;max-width:none}
+.o .ic{margin-bottom:12px}
+.vach{height:10px;background:var(--nhat);border-radius:99px;overflow:hidden}
+.vach i{display:block;height:100%;background:var(--muc);border-radius:99px}
+.cot{display:grid;gap:16px;max-width:720px}
+.cot .dong{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}
+.cot b{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+footer{background:var(--muc);color:#C9D3E3;padding:26px 0;font-size:14.5px;margin-top:28px}
+footer a{color:#fff}
+footer p{max-width:70ch;margin:0 0 8px}
+@media (max-width:520px){nav.muc a{padding:7px 12px;font-size:15px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.mo{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:20px 0 36px}
+.mo>*{min-width:0}
+h1 span{display:block}
+/* thời khóa biểu */
+.tkb{background:var(--trang);border:1px solid var(--ke);border-radius:20px;padding:16px}
+.tkb-dau{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-weight:700;font-size:15.5px}
+.tkb-luoi{display:grid;grid-template-columns:34px repeat(4,1fr);gap:5px;font-size:12.5px}
+.tkb-luoi .dc{font-weight:700;color:var(--chi);text-align:center;padding-bottom:2px}
+.tkb-luoi .thu{font-weight:700;display:grid;place-items:center;color:var(--chi)}
+.tkb-luoi .tiet{background:var(--muc);border-radius:9px;min-height:42px}
+.tkb-luoi button{border:1.5px dashed var(--muc);background:var(--da-quang);color:var(--muc);border-radius:9px;min-height:42px;font:700 13px var(--chu);cursor:pointer;padding:0;font-variant-numeric:tabular-nums;display:grid;place-items:center}
+.tkb-luoi button[aria-pressed=true]{background:var(--dung-gio);color:#fff;border:1.5px solid var(--dung-gio)}
+.tkb-luoi button .i{width:20px;height:20px;stroke-width:3}
+.chu-thich{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--chi);margin:10px 0 0}
+.chu-thich i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.tong{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.tong div{background:var(--giay);border-radius:12px;padding:8px 4px}
+.tong b{display:block;font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2}
+.tong span{font-size:12.5px;color:var(--chi)}
+.tkb .loi{color:var(--canh-bao);font-weight:700;font-size:13.5px;margin:8px 0 0;min-height:1.4em}
+/* ba hình */
+.hinh3{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr;gap:10px;align-items:center}
+.hinh3 figure{margin:0}
+.hinh3 svg.ve{display:block;width:100%;height:auto;border-radius:16px}
+.hinh3 figcaption{font-weight:700;margin-top:10px;font-size:16px}
+.hinh3 .mt{color:var(--chi);display:grid;place-items:center;margin-bottom:34px}
+/* triết lý */
+.trich{font-size:clamp(20px,2.6vw,27px);line-height:1.4;font-weight:700;max-width:28ch;margin:0 0 26px}
+.trich span{background:linear-gradient(transparent 60%,var(--da-quang) 60%)}
+.gt .kanji{font-size:26px;font-weight:800;letter-spacing:.04em;display:block;margin-bottom:10px;color:var(--muc)}
+/* Nhật sang On Time */
+.doi{display:grid;gap:8px}
+.doi>div{display:grid;grid-template-columns:minmax(0,5fr) 24px minmax(0,7fr);gap:12px;align-items:center;background:var(--trang);border:1px solid var(--ke);border-radius:14px;padding:12px 16px}
+.doi .jp{font-weight:700}
+.doi .jp small{display:block;font-weight:400;color:var(--chi);font-size:13.5px}
+.doi .i{color:var(--chi)}
+.doi .vn{font-size:15.5px}
+.doi-dau{display:grid;grid-template-columns:minmax(0,5fr) 24px minmax(0,7fr);gap:12px;padding:0 16px 6px;font-size:13.5px;color:var(--chi);font-weight:700}
+/* quy tắc */
+.qt{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.qt div{display:flex;align-items:center;gap:12px;background:var(--trang);border:1px solid var(--ke);border-radius:14px;padding:10px 14px;font-weight:500;font-size:15.5px;line-height:1.3}
+.qt .ic{width:40px;height:40px;border-radius:12px}
+.cuoi{background:var(--muc);color:#fff;border-radius:20px;padding:28px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.cuoi h2{margin:0}
+.cuoi .nut{margin:0 8px 0 0}
+.cuoi .nut.phu-n{color:#fff;box-shadow:inset 0 0 0 2px #fff}
+@media (max-width:860px){.mo{grid-template-columns:1fr;gap:24px}.hinh3{grid-template-columns:1fr}.hinh3 .mt{transform:rotate(90deg);margin:0}}
+@media (max-width:620px){.doi>div{grid-template-columns:1fr;gap:4px}.doi>div>.i{display:none}.doi-dau{display:none}.doi .vn{color:var(--chi)}}
+</style>
+</head>
+<body>
+<div class="bao"><div class="khung"><b>Đề án môn học.</b> On Time là doanh nghiệp giả định của Nhóm 7, chưa có dịch vụ thật.</div></div>
+<div class="khung">
+<header class="dau">
+  <a class="ten" href="index.html" aria-label="On Time, trang công ty"><i></i>On Time</a>
+  <nav class="muc" aria-label="Các trang"><a href="index.html" aria-current="page">Công ty</a><a href="ung-dung.html">Ứng dụng</a><a href="de-an.html">Đề án</a></nav>
+</header>
+
+<main>
+<div class="mo">
+  <div>
+    <h1><span>Trọn giờ lên lớp,</span><span>khớp nhịp vào ca.</span></h1>
+    <p class="dan">Ứng dụng nhận ca làm lẻ 3 đến 5 tiếng cho sinh viên Hà Nội.</p>
+    <p><a class="nut" href="ung-dung.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>Bấm thử ứng dụng</a><a class="nut phu-n" href="de-an.html">Đọc đề án</a></p>
+  </div>
+  <div class="tkb" aria-label="Thời khóa biểu mẫu, bấm được">
+    <div class="tkb-dau"><span class="ic vang"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span>Buổi trống trong tuần là ô vàng. Bấm để nhận ca.</span></div>
+    <div class="tkb-luoi" id="luoi"></div>
+    <p class="chu-thich"><span><i style="background:var(--muc)"></i>Có tiết</span><span><i style="background:var(--da-quang);border:1px dashed var(--muc)"></i>Trống, có ca</span><span><i style="background:var(--dung-gio)"></i>Đã nhận</span></p>
+    <div class="tong" id="tong" aria-live="polite"></div>
+    <p class="loi" id="loi" role="status"></p>
+  </div>
+</div>
+
+<section>
+  <h2>On Time làm gì</h2>
+  <p class="phu">Nối giờ rảnh của sinh viên với giờ thiếu người của quán.</p>
+  <div class="hinh3">
+    <figure>
+      <svg class="ve" viewBox="0 0 240 150" role="img" aria-label="Thời khóa biểu của một sinh viên, có vài buổi trống tô vàng">
+        <rect width="240" height="150" fill="#E7EDF6"/>
+        <rect x="20" y="22" width="124" height="106" rx="10" fill="#fff"/>
+        <g fill="#10203A"><rect x="30" y="32" width="32" height="18" rx="5"/><rect x="66" y="32" width="32" height="18" rx="5"/><rect x="30" y="54" width="32" height="18" rx="5"/><rect x="102" y="54" width="32" height="18" rx="5"/><rect x="66" y="76" width="32" height="18" rx="5"/><rect x="102" y="76" width="32" height="18" rx="5"/><rect x="30" y="98" width="32" height="18" rx="5"/></g>
+        <g fill="#FFE14D" stroke="#10203A" stroke-width="1.5" stroke-dasharray="4 3"><rect x="102" y="32" width="32" height="18" rx="5"/><rect x="66" y="54" width="32" height="18" rx="5"/><rect x="30" y="76" width="32" height="18" rx="5"/><rect x="66" y="98" width="32" height="18" rx="5"/><rect x="102" y="98" width="32" height="18" rx="5"/></g>
+        <path d="M160 150v-26c0-15 12-25 29-25s29 10 29 25v26z" fill="#0B8A6A"/>
+        <path d="M174 103v47M204 103v47" stroke="#10203A" stroke-width="5"/>
+        <circle cx="189" cy="66" r="19" fill="#F3C7A2"/>
+        <path d="M169 64c-2-15 7-26 20-26s22 10 20 24c-9 0-16-4-21-10-3 6-9 10-19 12z" fill="#10203A"/>
+      </svg>
+      <figcaption>Sinh viên có buổi trống</figcaption>
+    </figure>
+    <span class="mt" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    <figure>
+      <svg class="ve" viewBox="0 0 240 150" role="img" aria-label="Điện thoại mở ứng dụng On Time, bấm nhận một ca">
+        <rect width="240" height="150" fill="#E7EDF6"/>
+        <rect x="80" y="12" width="80" height="150" rx="13" fill="#10203A"/>
+        <rect x="86" y="20" width="68" height="140" rx="8" fill="#F4F7FB"/>
+        <rect x="92" y="28" width="56" height="32" rx="7" fill="#fff"/><rect x="97" y="35" width="16" height="16" rx="5" fill="#FFE14D"/><rect x="118" y="36" width="24" height="5" rx="2.5" fill="#10203A"/><rect x="118" y="45" width="16" height="4" rx="2" fill="#D3DBE8"/>
+        <rect x="92" y="65" width="56" height="32" rx="7" fill="#fff"/><rect x="97" y="72" width="16" height="16" rx="5" fill="#FFE14D"/><rect x="118" y="73" width="20" height="5" rx="2.5" fill="#10203A"/><rect x="118" y="82" width="18" height="4" rx="2" fill="#D3DBE8"/>
+        <rect x="92" y="106" width="56" height="22" rx="11" fill="#FFE14D" stroke="#10203A" stroke-width="2"/><rect x="108" y="115" width="24" height="5" rx="2.5" fill="#10203A"/>
+        <circle cx="186" cy="44" r="18" fill="#0B8A6A"/><path d="M177 44l7 7 11-12" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="52" cy="104" r="16" fill="#fff"/><circle cx="52" cy="104" r="9" fill="none" stroke="#10203A" stroke-width="2.5"/><path d="M52 99v5l3.5 2" stroke="#10203A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <figcaption>Nhận ca trên On Time</figcaption>
+    </figure>
+    <span class="mt" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    <figure>
+      <svg class="ve" viewBox="0 0 240 150" role="img" aria-label="Một quán nhỏ có sinh viên đang làm trong quán">
+        <rect width="240" height="150" fill="#E7EDF6"/>
+        <rect x="38" y="56" width="164" height="94" fill="#fff"/>
+        <path d="M30 30h180l10 28H20z" fill="#10203A"/>
+        <path d="M60 30h30l-3 28H53zM120 30h30l3 28h-36zM180 30h30l10 28h-34z" fill="#FFE14D"/>
+        <rect x="142" y="84" width="40" height="66" rx="4" fill="#10203A"/><circle cx="151" cy="118" r="3" fill="#FFE14D"/>
+        <rect x="56" y="78" width="68" height="48" rx="6" fill="#DDF3EC" stroke="#10203A" stroke-width="2.5"/>
+        <circle cx="90" cy="98" r="10" fill="#F3C7A2"/><path d="M80 96c0-8 4-12 10-12s10 4 10 11c-5 0-8-2-10-5-2 3-5 5-10 6z" fill="#10203A"/>
+        <path d="M72 125c0-10 8-15 18-15s18 5 18 15z" fill="#0B8A6A"/>
+        <rect x="56" y="132" width="68" height="6" rx="3" fill="#D3DBE8"/>
+      </svg>
+      <figcaption>Quán có người đúng lúc thiếu</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <h2>Vì sao cần</h2>
+  <p class="phu">Khảo sát sinh viên Hà Nội của nhóm, tháng 11/2026.</p>
+  <div class="cot">
+    <div><div class="dong"><span>Từng gặp chuyện không hay khi đi làm thêm</span><b>64,5%</b></div><div class="vach"><i style="width:64.5%"></i></div></div>
+    <div><div class="dong"><span>Vào việc mà không ai dạy</span><b>38,7%</b></div><div class="vach"><i style="width:38.7%"></i></div></div>
+    <div><div class="dong"><span>Coi xếp ca linh hoạt là quan trọng nhất</span><b>66,7%</b></div><div class="vach"><i style="width:66.7%"></i></div></div>
+    <div><div class="dong"><span>Sẽ dùng một ứng dụng nhận ca lẻ</span><b>83,3%</b></div><div class="vach"><i style="width:83.3%;background:var(--dung-gio)"></i></div></div>
+  </div>
+  <p class="nho" style="margin-top:14px">Hai dòng đầu tính trên những bạn đã từng đi làm thêm. Mẫu nhỏ, chỉ dùng để định hướng.</p>
+</section>
+
+<section>
+  <h2>Triết lý</h2>
+  <p class="trich"><span>Biến những khoảng trống thời gian thành hành trang trưởng thành cho sinh viên và điểm tựa kịp thời cho hàng quán.</span></p>
+  <div class="luoi gt">
+    <div class="o"><span class="kanji" lang="ja">時間厳守</span><h3>Đúng giờ, đúng hẹn</h3><p>Vào ca đúng giờ, trả tiền đúng hạn.</p></div>
+    <div class="o"><span class="kanji" lang="ja">現場主義</span><h3>Coi trọng hiện trường</h3><p>Mỗi tháng sáng lập viên tự đi làm một ca.</p></div>
+    <div class="o"><span class="ic vang"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"/></svg></span><h3>Công bằng hai phía</h3><p>Quán và sinh viên chấm điểm nhau, công khai.</p></div>
+    <div class="o"><span class="kanji" lang="ja">改善</span><h3>Cải tiến mỗi tuần</h3><p>Mỗi tuần sửa một việc từ góp ý sau ca.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Học từ Nhật, chỉnh cho Việt Nam</h2>
+  <p class="phu">Sáu thứ nhóm mang về từ doanh nghiệp Nhật.</p>
+  <div class="doi-dau"><span>Ở Nhật</span><span></span><span>Ở On Time</span></div>
+  <div class="doi">
+    <div><span class="jp"><span lang="ja">スキマバイト</span><small>Việc ca lẻ của Timee, phí khoảng 30%</small></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="vn">Ca lẻ quanh trường cho sinh viên, phí 20% và 15%</span></div>
+    <div><span class="jp">Quy định hủy ca 2025<small>Chủ hủy ca phải trả trợ cấp</small></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="vn">Hủy trong 12 giờ trước ca, quán trả 50% tiền công</span></div>
+    <div><span class="jp">Sổ tay của MUJI<small>Nhân viên cửa hàng góp ý sửa</small></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="vn">Thẻ quán năm dòng, video một phút cho từng việc</span></div>
+    <div><span class="jp">The Five Keys<small>Tokyo Disney Resort</small></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="vn">Bốn nguyên tắc: An toàn, Đúng giờ, Lễ phép, Làm gọn</span></div>
+    <div><span class="jp"><span lang="ja">報連相</span><small>Báo cáo, liên lạc, hỏi ý</small></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="vn">Tin nhắn báo sự cố ba dòng: chuyện gì, ở đâu, cần gì</span></div>
+    <div><span class="jp"><span lang="ja">改善</span><small>Người làm đề xuất cải tiến</small></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="vn">Sau mỗi ca hỏi một câu: "Ca này nên sửa gì?"</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Bộ quy tắc quán tử tế</h2>
+  <p class="phu">Hiện trên từng ca, áp dụng cho cả quán và sinh viên.</p>
+  <div class="qt">
+    <div><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Ca từ 6 đến 22 giờ</div>
+    <div><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>Tối đa 20 giờ một tuần</div>
+    <div><span class="ic xanh"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v10a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z"/><path d="M16 14h.5"/></svg></span>Quán nạp tiền công trước</div>
+    <div><span class="ic xanh"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><text x="12" y="16.4" text-anchor="middle" font-size="12" font-weight="800" fill="currentColor" stroke="none">đ</text></svg></span>Tiền về trong 24 giờ</div>
+    <div><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span>Hủy sát giờ, quán trả 50%</div>
+    <div><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>Bỏ ca ba lần, khóa 30 ngày</div>
+    <div><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>Có bảo hiểm tai nạn</div>
+    <div><span class="ic vang"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L3.5 9.7l5.9-.9z"/></svg></span>Chấm điểm hai chiều</div>
+  </div>
+</section>
+
+<section>
+  <h2>Đội ngũ</h2>
+  <p class="phu">Bốn sinh viên của Nhóm 7 sáng lập. Năm đầu tuyển thêm một nhân viên hỗ trợ người dùng.</p>
+  <div class="luoi">
+    <div class="o"><span class="ic dam"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><h3>Giám đốc điều hành</h3><p>Chiến lược, sản phẩm</p></div>
+    <div class="o"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><h3>Nghiên cứu thị trường</h3><p>Khảo sát, mô hình Nhật</p></div>
+    <div class="o"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><h3>Vận hành và Tài chính</h3><p>Thanh toán, pháp lý</p></div>
+    <div class="o"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><h3>Nhân sự và Văn hóa</h3><p>Bộ quy tắc, đào tạo</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="cuoi">
+    <h2>Xem tiếp</h2>
+    <p style="margin:0"><a class="nut vang" href="ung-dung.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>Bấm thử ứng dụng</a><a class="nut phu-n" href="de-an.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>Đọc đề án</a></p>
+  </div>
+</section>
+</main>
+</div>
+<footer><div class="khung">
+  <p><b>On Time</b> là doanh nghiệp giả định. Trang thuộc đề án giữa kỳ môn Văn hóa doanh nghiệp Nhật Bản của Nhóm 7, tháng 11/2026.</p>
+</div></footer>
+
+<script>
+(function(){
+"use strict";
+var THU = ["T2","T3","T4","T5","T6","T7"];
+var BUOI = [["Sáng",4],["Trưa",3],["Chiều",4],["Tối",3]];
+var LICH = [[1,0,1,0],[1,0,0,1],[0,0,1,0],[1,1,0,0],[1,0,1,0],[0,0,0,1]];
+var LUONG = [32000,31000,33000,30000,30000];
+var KIEM = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+var chon = {};
+var luoi = document.getElementById("luoi"), tong = document.getElementById("tong"), loi = document.getElementById("loi");
+function tien(t,b){ return BUOI[b][1] * LUONG[(t*2+b) % LUONG.length]; }
+function gio(){ var g = 0; for (var k in chon) g += BUOI[+k.split("-")[1]][1]; return g; }
+function ve(){
+  var h = '<span></span>' + BUOI.map(function(b){ return '<span class="dc">'+b[0]+'</span>'; }).join("");
+  LICH.forEach(function(hang,t){
+    h += '<span class="thu">'+THU[t]+'</span>';
+    hang.forEach(function(co,b){
+      var k = t+"-"+b;
+      if (co) h += '<span class="tiet" role="img" aria-label="Có tiết"></span>';
+      else h += '<button type="button" data-k="'+k+'" aria-pressed="'+(!!chon[k])+'" aria-label="'+THU[t].replace("T","Thứ ")+' buổi '+BUOI[b][0].toLowerCase()+', ca '+BUOI[b][1]+' giờ, '+tien(t,b).toLocaleString("vi-VN")+' đồng">'+(chon[k] ? KIEM : (tien(t,b)/1000)+"k")+'</button>';
+    });
+  });
+  luoi.innerHTML = h;
+  var g = gio(), n = 0, s = 0; for (var k in chon){ var p = k.split("-"); s += tien(+p[0],+p[1]); n++; }
+  tong.innerHTML = '<div><b>'+n+'</b><span>ca đã nhận</span></div><div><b>'+g+'/20</b><span>giờ trong tuần</span></div><div><b>'+s.toLocaleString("vi-VN")+'đ</b><span>tiền công</span></div>';
+}
+luoi.addEventListener("click", function(e){
+  var b = e.target.closest("button"); if (!b) return; var k = b.dataset.k; loi.textContent = "";
+  if (chon[k]) delete chon[k];
+  else if (gio() + BUOI[+k.split("-")[1]][1] > 20) loi.textContent = "Quá 20 giờ một tuần. On Time chặn để việc làm thêm không lấn giờ học.";
+  else chon[k] = true;
+  ve(); var lai = luoi.querySelector('[data-k="'+k+'"]'); if (lai) lai.focus();
+});
+ve();
+})();
+</script>
+</body>
+</html>
